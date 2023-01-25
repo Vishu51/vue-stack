@@ -1,12 +1,13 @@
 var express = require('express');
 var app = express();
+const connectDB = require('./db/connect')
 const authApi = require('./authentication/auth');
+
 
 // app.get('/', function (req, res) {
 //     res.send('<h1><b>My</b> first express http server</h1>');
 // });
 app.use(authApi)
-
 // // 1) Add a route that answers to all request types
 // app.route('/article')
 // .get(function(req, res) {
@@ -36,5 +37,7 @@ app.use(authApi)
 // });
 
 app.listen(8000, function () {
+        connectDB()
+
     console.log('Example app listening on port 8000.');
 });

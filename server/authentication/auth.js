@@ -1,5 +1,6 @@
 var express = require('express');
 const authApi = express.Router();
+const AuthCollection =  require('./schema')
 const bodyParser = require('body-parser')
 
 authApi.use(bodyParser.json());
@@ -18,14 +19,15 @@ const users = [
   ];
 
 authApi.post('/login', (req, res) => {
-    res.json('3333333333333333333333333')
-    console.log('running');
+    console.log('running', req.query);
     const {username, password} = req.body;
-
     const user = users.find((el) => el.username === username && el.password === password);
-
     if (user) {
-        res.send({message: 'Login Successful'});
+      let userAuth = new AuthCollection({
+        username, password
+      })
+      userAuth.save()
+      res.send({message: 'Login Successful'});
     } else {
         res.status(401).send({message: 'Invalid Login'})
     }
